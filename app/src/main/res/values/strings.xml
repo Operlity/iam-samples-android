@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SecureVault</string>
+    <string name="appAuthRedirectScheme" translatable="false">com.example.secureauthapp</string>
+    <string name="app_logo">App Logo</string>
+    
+    <!-- Login Screen -->
+    <string name="welcome_title">SecureVault</string>
+    <string name="login_subtitle">Your secure identity portal</string>
+    <string name="login_with_identityhub">Get Started</string>
+    <string name="security_info">✓ AppAuth with PKCE\n✓ Secure token storage\n✓ Custom Tabs (no WebView)\n✓ Public client (no secrets)</string>
+    
+    <!-- Home Screen -->
+    <string name="home">Home</string>
+    <string name="welcome_message">Welcome Back!</string>
+    <string name="authenticated">✓ Authenticated</string>
+    <string name="access_token_label">Access Token:</string>
+    <string name="actions">Actions</string>
+    <string name="home_info">Your tokens are securely stored using Android Keystore and EncryptedSharedPreferences.</string>
+    <string name="repository_info">✓ Repository Pattern\n✓ Retrofit for API calls\n✓ Fetching data from IdentityHub\n✓ Clean Architecture</string>
+    <string name="refresh_user_info">Refresh User Info</string>
+    
+    <!-- Common -->
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="refresh_token">Refresh Token</string>
+    <string name="not_authenticated">Not authenticated</string>
+</resources>
