@@ -1,144 +1,60 @@
-﻿# Secure Auth App
+﻿# SecureVault - Android Contact Management App
 
-Android application implementing OAuth 2.0 authentication with best security practices.
+SecureVault is a production-ready Android application that demonstrates secure authentication using **AppAuth** and local data persistence using **SQLite (Room)**. It features a modern, professional UI built with Material 3.
 
-## Features
+## ✨ Features
 
-✅ **AppAuth for Android** - Industry-standard OAuth 2.0 library  
-✅ **Authorization Code + PKCE** - Secure public client flow  
-✅ **Custom Tabs** - No embedded WebViews  
-✅ **Secure Token Storage** - Android Keystore + EncryptedSharedPreferences  
-✅ **Proper Logout** - Clears tokens and browser session  
-✅ **No Hardcoded Secrets** - Public client configuration  
+- **Secure Authentication**: Implements OAuth 2.0 with PKCE using the industry-standard `net.openid:appauth` library.
+- **Modern UI/UX**: Clean, responsive design featuring Material 3 components, custom gradients, and bottom-sheet login integration.
+- **Local Contact Management**: Full CRUD (Create, Read, Update, Delete) functionality for managing contacts.
+- **Smart Search**: Instant filtering of contacts by name, phone, or email.
+- **Persistent Storage**: Robust local data handling using the Room Persistence Library (SQLite).
+- **Secure Token Storage**: Encrypted storage of authentication tokens using Android Keystore and `EncryptedSharedPreferences`.
 
-## Configuration
+## 🚀 Getting Started
 
-Before running the app, update the configuration in **AuthConfig.kt**:
+### 1. Prerequisites
+- Android Studio Ladybug or newer.
+- Android SDK 34 (Compile SDK).
+- A valid Identity Provider (like IdentityHub, Auth0, or Okta).
+
+### 2. Configuration
+Before building the app, you must configure your authentication settings in `app/src/main/java/com/example/secureauthapp/AuthConfig.kt`:
 
 ```kotlin
 object AuthConfig {
-    const val AUTHORITY_URL = "https://your-identity-hub.com"
-    const val CLIENT_ID = "your_client_id"
-    const val REDIRECT_URI = "com.example.secureauthapp://callback"
-    // ... other settings
+    const val AUTHORITY_URL = "https://your-identity-provider.com"
+    const val CLIENT_ID = "YOUR_CLIENT_ID_HERE"
+    const val REDIRECT_URI = "com.example.securevault://callback"
+    // ...
 }
 ```
 
-## Security Best Practices
+### 3. Identity Provider Setup
+Ensure your Identity Provider dashboard is configured with the following Redirect URIs:
+- **Redirect URI**: `com.example.securevault://callback`
+- **Logout Redirect URI**: `com.example.securevault://callback`
 
-### ✓ AppAuth Library
-Uses the recommended net.openid:appauth library for OAuth 2.0 and OpenID Connect.
+## 🛠️ Build and Run
 
-### ✓ Authorization Code + PKCE
-- No client secret (public client)
-- PKCE (Proof Key for Code Exchange) enabled by default
-- Protects against authorization code interception
+1. Clone the repository.
+2. Open the project in Android Studio.
+3. Sync the project with Gradle files.
+4. Click **Run** to deploy the app to your emulator or physical device.
 
-### ✓ Custom Tabs (No WebView)
-- Uses browser/Custom Tabs for authentication
-- Avoids embedded WebViews which can be insecure
-- User sees the actual identity provider URL
+## 🏛️ Architecture
 
-### ✓ Secure Token Storage
-- **EncryptedSharedPreferences** - Application-level encryption
-- **Android Keystore** - Hardware-backed key storage
-- Access tokens, refresh tokens, and ID tokens encrypted at rest
+The app follows the **MVVM (Model-View-ViewModel)** architectural pattern and uses the **Repository Pattern** to abstract data sources.
 
-### ✓ Proper Logout
-1. Opens browser to /connect/endsession endpoint
-2. Clears access token from secure storage
-3. Clears refresh token from secure storage
-4. Clears local session state
+- **UI Layer**: Activities and Adapters using View Binding.
+- **Data Layer**: Room Database, DAOs, and Repositories.
+- **Auth Layer**: AuthManager handling the AppAuth flow and token lifecycle.
 
-### ✓ No Hardcoded Secrets
-- Public client only
-- No client secret in code or resources
-- All sensitive configuration externalized
+## 🔒 Security Best Practices
+- **No Hardcoded Secrets**: Uses public client configuration suitable for mobile apps.
+- **PKCE**: Enforces Proof Key for Code Exchange to prevent authorization code interception.
+- **Custom Tabs**: Uses Chrome Custom Tabs for a secure, integrated login experience.
+- **Local Encryption**: Sensitive data is encrypted at rest on the device.
 
-## Flow
-
-```
-Android App → Browser/Custom Tab → IdentityHub
-     ↓              ↓                    ↓
-  Login      Authorization         Token Exchange
-     ↓              ↓                    ↓
-  Store      Secure Storage        Encrypted Prefs
-```
-
-## Requirements
-
-- Android API 23+ (Android 6.0 Marshmallow)
-- Kotlin 1.9+
-- Gradle 8.1+
-
-## Build
-
-```bash
-./gradlew build
-```
-
-## Run
-
-```bash
-./gradlew installDebug
-```
-
-## Dependencies
-
-- **AppAuth**: net.openid:appauth:0.11.1
-- **Security Crypto**: androidx.security:security-crypto:1.1.0-alpha06
-- **Browser**: androidx.browser:browser:1.7.0
-
-## Project Structure
-
-```
-app/
-├── AuthApplication.kt          # Application class
-├── AuthManager.kt              # Main authentication logic
-├── AuthConfig.kt               # Configuration (update this!)
-├── SecureTokenStorage.kt       # Encrypted token storage
-├── MainActivity.kt             # UI and user interactions
-└── res/
-    ├── layout/
-    │   └── activity_main.xml   # Main UI layout
-    └── values/
-        └── strings.xml         # String resources
-```
-
-## Usage
-
-### Login
-```kotlin
-authManager.login(authLauncher)
-```
-
-### Refresh Token
-```kotlin
-authManager.refreshAccessToken(
-    onSuccess = { accessToken -> /* use token */ },
-    onError = { error -> /* handle error */ }
-)
-```
-
-### Logout
-```kotlin
-authManager.logout {
-    // Logout complete
-}
-```
-
-### Get Access Token
-```kotlin
-val token = authManager.getAccessToken()
-```
-
-### Check Authentication Status
-```kotlin
-if (authManager.isAuthenticated()) {
-    // User is authenticated
-}
-```
-
-## License
-
-This project is provided as a template for implementing secure OAuth 2.0 authentication in Android apps.
+## 📄 License
+This project is open-source and available under the MIT License.
